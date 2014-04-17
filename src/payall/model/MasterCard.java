@@ -1,18 +1,11 @@
 package payall.model;
 
 import static java.lang.String.format;
-import static payall.CardBanner.*;
+import static payall.CardBanner.MASTERCARD;
 import payall.Client;
 import payall.interfaces.Payment;
 
-public class MasterCard implements Payment {
-
-	@Override
-	public String pay(double value, Client client) {
-		if(acceptFlag(client))
-			return format("Value %s paid on MasterCard card banner in 3 times without discount", value);
-		return getNext().pay(value, client);
-	}
+public class MasterCard extends AbstractPayment {
 
 	@Override
 	public boolean acceptFlag(Client client) {
@@ -22,6 +15,11 @@ public class MasterCard implements Payment {
 	@Override
 	public Payment getNext() {
 		throw new RuntimeException(format("Card banner is not suported!")); 
+	}
+
+	@Override
+	public String getMessage(double value) {
+		return format("Value %s paid on MasterCard card banner in 3 times without discount", value);
 	}
 
 }
